@@ -6,13 +6,21 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import moment from "moment";
 import { useDispatch } from "react-redux";
-import { setCurrentPostId } from "../../../redux/actions/postActions";
+import {
+  deletePost,
+  getPosts,
+  setCurrentPostId,
+} from "../../../redux/actions/postActions";
 
 export default function Post({ post }) {
   const dispatch = useDispatch();
   // updating the  current post id to redux store
   const updatePostId = (id) => {
     dispatch(setCurrentPostId(id));
+  };
+
+  const deleteCurrentPost = (id) => {
+    dispatch(deletePost(id));
   };
 
   return (
@@ -49,7 +57,9 @@ export default function Post({ post }) {
         </CardContent>
         <CardActions>
           <Button size="small">like {post.likeCount}</Button>
-          <Button size="small">delete</Button>
+          <Button size="small" onClick={() => deleteCurrentPost(post._id)}>
+            delete
+          </Button>
         </CardActions>
       </Card>
     </div>

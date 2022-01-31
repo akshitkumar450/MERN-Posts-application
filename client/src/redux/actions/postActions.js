@@ -51,8 +51,25 @@ export const setCurrentPost = (id, postData) => {
         payload: data.data.updatedPost,
       });
     } catch (err) {
-      console.log(err.response);
-      // alert(err.response.data.message);
+      // console.log(err.response);
+      alert(err.response.data.message);
+    }
+  };
+};
+
+export const deletePost = (id) => {
+  return async (dispatch, getState) => {
+    try {
+      const data = await axios.delete(`http://localhost:5000/posts/${id}`);
+      // console.log(data.data.deletedPost);
+      dispatch({
+        type: "DELETE",
+        payload: id,
+      });
+      getPosts();
+    } catch (err) {
+      // console.log(err.response);
+      alert(err.response.data.message);
     }
   };
 };

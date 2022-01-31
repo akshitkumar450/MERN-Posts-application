@@ -17,7 +17,7 @@ export const getPosts = async (req, res) => {
 };
 
 export const createPost = async (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   try {
     const newPost = await Posts.create(req.body);
     // console.log("newpost", newPost);
@@ -59,7 +59,7 @@ export const updatePost = async (req, res) => {
   }
 };
 
-export const deletePost = (req, res) => {
+export const deletePost = async (req, res) => {
   // get the id
   const { id } = req.params;
 
@@ -69,9 +69,11 @@ export const deletePost = (req, res) => {
       res.status(404).send("no post with that id");
       return;
     }
-    await Posts.findByIdAndDelete(id);
+    const deletedPost = await Posts.findByIdAndDelete(id);
+    // console.log(data);
     res.status(201).json({
       status: "success",
+      deletedPost,
     });
   } catch (err) {
     res.status(404).json({
