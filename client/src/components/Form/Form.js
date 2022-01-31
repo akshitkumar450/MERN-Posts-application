@@ -56,7 +56,7 @@ function Form() {
   return (
     <Card className="p-2">
       <form
-        className="grid gap-y-2 "
+        className="space-y-5"
         autoComplete="off"
         noValidate
         onSubmit={handleSubmit}>
