@@ -2,33 +2,43 @@ import * as React from "react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-
-export default function Post() {
+import moment from "moment";
+export default function Post({ post }) {
   return (
-    <div className=" col-span-1">
-      <Card>
-        <CardMedia
-          component="img"
-          alt="green iguana"
-          height="40"
-          width="40"
-          image="https://raw.githubusercontent.com/adrianhajdin/project_mern_memories/master/client/src/images/memories.png?token=AF56X74XONEUGZ4FD2FUIA27UURPI"
+    <div className="col-span-1">
+      <Card className="relative">
+        <img
+          alt="post"
+          className="h-48 w-full object-cover"
+          src={post.selectedFile}
         />
+
+        <div className="absolute top-0 w-full flex justify-between items-center px-2 font-semibold bg-black text-white opacity-70">
+          <div>
+            <p>{post.creator}</p>
+            <p>{moment(post.createdAt).fromNow()}</p>
+          </div>
+          <div className="cursor-pointer">
+            <span className="text-4xl">···</span>
+          </div>
+        </div>
+
         <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            Lizard
+          {post.tags.map((tag, idx) => (
+            <p key={idx}>#{tag}</p>
+          ))}
+          <Typography gutterBottom variant="h4" component="div">
+            {post.title}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            Lizards are a widespread group of squamate reptiles, with over 6,000
-            species, ranging across all continents except Antarctica
+            {post.message}
           </Typography>
         </CardContent>
         <CardActions>
-          <Button size="small">Share</Button>
-          <Button size="small">Learn More</Button>
+          <Button size="small">like {post.likeCount}</Button>
+          <Button size="small">delete</Button>
         </CardActions>
       </Card>
     </div>

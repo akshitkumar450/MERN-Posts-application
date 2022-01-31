@@ -76,15 +76,17 @@ function Form() {
             setPostData({ ...postData, tags: e.target.value.split(",") })
           }
         />
-        <div>
-          <FileBase
-            type="file"
-            multiple={false}
-            onDone={({ base64 }) =>
-              setPostData({ ...postData, selectedFile: base64 })
-            }
-          />
-        </div>
+        <TextField
+          name="image"
+          variant="outlined"
+          label="image url"
+          fullWidth
+          value={postData.selectedFile}
+          onChange={(e) =>
+            setPostData({ ...postData, selectedFile: e.target.value })
+          }
+        />
+
         <Button
           variant="contained"
           color="primary"
