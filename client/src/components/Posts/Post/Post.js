@@ -5,7 +5,16 @@ import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import moment from "moment";
+import { useDispatch } from "react-redux";
+import { setCurrentPostId } from "../../../redux/actions/postActions";
+
 export default function Post({ post }) {
+  const dispatch = useDispatch();
+  // updating the  current post id to redux store
+  const updatePostId = (id) => {
+    dispatch(setCurrentPostId(id));
+  };
+
   return (
     <div className="col-span-1">
       <Card className="relative">
@@ -20,7 +29,9 @@ export default function Post({ post }) {
             <p>{post.creator}</p>
             <p>{moment(post.createdAt).fromNow()}</p>
           </div>
-          <div className="cursor-pointer">
+          <div
+            className="cursor-pointer"
+            onClick={() => updatePostId(post._id)}>
             <span className="text-4xl">···</span>
           </div>
         </div>

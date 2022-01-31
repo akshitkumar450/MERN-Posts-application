@@ -1,11 +1,24 @@
 import { Button, Card, TextField, Typography } from "@mui/material";
-import React, { useState } from "react";
-import FileBase from "react-file-base64";
-import { useDispatch } from "react-redux";
-import { createPost } from "../../redux/actions/postActions";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  createPost,
+  setCurrentPost,
+  setCurrentPostId,
+} from "../../redux/actions/postActions";
 
 function Form() {
   const dispatch = useDispatch();
+  const currentId = useSelector((state) => state.posts.currentPostId);
+  // console.log(currentId);
+
+  const posts = useSelector((state) => state.posts.posts);
+  // console.log(posts);
+
+  // finding the post with currentId to prefill the form values
+  const currentPost = posts.find((post) => post._id === currentId);
+  // console.log(currentPost);
+
   const [postData, setPostData] = useState({
     creator: "",
     title: "",
@@ -14,12 +27,8 @@ function Form() {
     selectedFile: "",
   });
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(createPost(postData));
-  };
-
   const clear = () => {
+    dispatch(setCurrentPostId(null));
     setPostData({
       creator: "",
       title: "",
@@ -28,6 +37,22 @@ function Form() {
       selectedFile: "",
     });
   };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // if we don't have the currentId of the post ,means we want to create a new post else we want to update existing post
+    if (!currentId) {
+      dispatch(createPost(postData));
+    } else {
+      dispatch(setCurrentPost(currentId, postData));
+    }
+    clear();
+  };
+
+  useEffect(() => {
+    if (currentPost) setPostData(currentPost);
+  }, [currentPost]);
+
   return (
     <Card className="p-2">
       <form
@@ -35,7 +60,9 @@ function Form() {
         autoComplete="off"
         noValidate
         onSubmit={handleSubmit}>
-        <Typography variant="h6">create memories</Typography>
+        <Typography variant="h6">
+          {currentId ? "Editing memories" : "creating memories"}
+        </Typography>
         <TextField
           name="creator"
           variant="outlined"

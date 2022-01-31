@@ -29,3 +29,30 @@ export const createPost = (postData) => {
     }
   };
 };
+
+// for setting the current post
+export const setCurrentPostId = (id) => {
+  return {
+    type: "SET_CURR_POST_ID",
+    payload: id,
+  };
+};
+
+export const setCurrentPost = (id, postData) => {
+  return async (dispatch, getState) => {
+    try {
+      const data = await axios.patch(
+        `http://localhost:5000/posts/${id}`,
+        postData
+      );
+      // console.log(data.data);
+      dispatch({
+        type: "UPDATE",
+        payload: data.data.updatedPost,
+      });
+    } catch (err) {
+      console.log(err.response);
+      // alert(err.response.data.message);
+    }
+  };
+};
