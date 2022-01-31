@@ -58,3 +58,25 @@ export const updatePost = async (req, res) => {
     });
   }
 };
+
+export const deletePost = (req, res) => {
+  // get the id
+  const { id } = req.params;
+
+  try {
+    // to check whether the id is a valid mongoose id or not
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      res.status(404).send("no post with that id");
+      return;
+    }
+    await Posts.findByIdAndDelete(id);
+    res.status(201).json({
+      status: "success",
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: "fail",
+      message: err.message,
+    });
+  }
+};
