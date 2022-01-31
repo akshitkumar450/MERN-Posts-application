@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import Posts from "../models/postModel.js";
 
 export const getPosts = async (req, res) => {
@@ -23,6 +24,32 @@ export const createPost = async (req, res) => {
     res.status(201).json({
       status: "success",
       newPost,
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: "fail",
+      message: err.message,
+    });
+  }
+};
+
+export const updatePost = async (req, res) => {
+  // get the id
+  const { id } = req.params;
+  try {
+    // to check whether the id is a valid mongoose id or not
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      res.status(404).send("no post with that id");
+      return;
+    }
+    const updatedPost = await Posts.findByIdAndUpdate(id, req.body, {
+      runValidators: true,
+      new: true,
+    });
+
+    res.status(201).json({
+      status: "success",
+      updatedPost,
     });
   } catch (err) {
     res.status(404).json({
