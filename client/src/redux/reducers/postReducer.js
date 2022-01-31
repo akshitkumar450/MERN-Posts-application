@@ -23,6 +23,7 @@ export const postReducer = (state = initialState, action) => {
       };
 
     case "UPDATE":
+    case "LIKE":
       return {
         ...state,
         posts: state.posts.map((post) =>

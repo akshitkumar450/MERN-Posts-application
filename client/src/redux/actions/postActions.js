@@ -73,3 +73,22 @@ export const deletePost = (id) => {
     }
   };
 };
+
+export const likePost = (id) => {
+  return async (dispatch, getState) => {
+    try {
+      const data = await axios.patch(
+        `http://localhost:5000/posts/${id}/likepost`
+      );
+      // console.log(data.data.updatedPost);
+      dispatch({
+        type: "LIKE",
+        payload: data.data.updatedPost,
+      });
+      getPosts();
+    } catch (err) {
+      // console.log(err.response);
+      alert(err.response.data.message);
+    }
+  };
+};
