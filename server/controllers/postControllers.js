@@ -82,3 +82,37 @@ export const deletePost = async (req, res) => {
     });
   }
 };
+
+export const likePost = async (req, res) => {
+  // get the id
+  const { id } = req.params;
+
+  try {
+    // to check whether the id is a valid mongoose id or not
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      res.status(404).send("no post with that id");
+      return;
+    }
+    const postToBeLiked = await Posts.findById(id);
+    // console.log(data);
+    const updatedPost = await Posts.findByIdAndUpdate(
+      id,
+      {
+        likeCount: postToBeLiked.likeCount + 1,
+      },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+    res.status(201).json({
+      status: "success",
+      updatedPost,
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: "fail",
+      message: err.message,
+    });
+  }
+};
