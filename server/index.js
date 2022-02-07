@@ -3,6 +3,8 @@ import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
 import postsRouter from "./routes/postsRoutes.js";
+import userRouter from "./routes/userRoutes.js";
+
 const app = express();
 dotenv.config({
   path: "./config.env",
@@ -12,6 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 app.use("/posts", postsRouter);
+app.use("/auth", userRouter);
 
 const connectionURL = process.env.MONGODB_CONNECTION.replace(
   "<PASSWORD>",
