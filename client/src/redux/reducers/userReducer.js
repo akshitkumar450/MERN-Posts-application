@@ -13,6 +13,14 @@ export const userReducer = (state = initialState, action) => {
       return {
         user: null,
       };
+    case "JWT_SIGNIN":
+      return {
+        user: action.payload,
+      };
+    case "JWT_SIGNUP":
+      return {
+        user: action.payload,
+      };
     default:
       return state;
   }

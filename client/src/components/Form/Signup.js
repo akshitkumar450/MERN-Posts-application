@@ -1,14 +1,19 @@
 import { Button, Card, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { JWTsignUp } from "../../redux/actions/userActions";
 
 function Signup() {
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  };
+  const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(JWTsignUp(email, password, name));
+  };
+
   return (
     <Card className="p-2 max-w-md mx-auto mt-20">
       <form
@@ -17,7 +22,7 @@ function Signup() {
         noValidate
         onSubmit={handleSubmit}>
         <Typography variant="h6" className="text-center">
-          Login
+          Sign Up
         </Typography>
 
         <TextField
@@ -26,7 +31,7 @@ function Signup() {
           type="text"
           label="name"
           value={name}
-          onChang={(e) => setName(e.target.value)}
+          onChange={(e) => setName(e.target.value)}
           fullWidth
         />
         <TextField
@@ -35,7 +40,7 @@ function Signup() {
           type="email"
           label="email"
           value={email}
-          onChang={(e) => setEmail(e.target.value)}
+          onChange={(e) => setEmail(e.target.value)}
           fullWidth
         />
         <TextField
@@ -44,7 +49,7 @@ function Signup() {
           variant="outlined"
           label="password"
           value={password}
-          onChang={(e) => setPassword(e.target.value)}
+          onChange={(e) => setPassword(e.target.value)}
           fullWidth
         />
 

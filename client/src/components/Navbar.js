@@ -46,11 +46,11 @@ function Navbar() {
             onLogoutSuccess={signOut}
           />
         ) : (
-          <Button variant="contained" color="secondary" size="large">
-            <Link to="/auth/login" className="block">
+          <Link to="/auth/login" className="block">
+            <Button variant="contained" color="secondary" size="large">
               Sign In
-            </Link>
-          </Button>
+            </Button>
+          </Link>
         )}
       </div>
     </div>

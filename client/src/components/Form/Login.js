@@ -3,15 +3,18 @@ import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { GoogleLogin } from "react-google-login";
 import { useDispatch } from "react-redux";
-import { login } from "../../redux/actions/userActions";
+import { JWTsignIn, login } from "../../redux/actions/userActions";
 
 function Login() {
   const dispatch = useDispatch();
   const history = useHistory();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    // console.log(email, password);
+    dispatch(JWTsignIn(email, password));
   };
 
   const googleFailure = () => {
@@ -68,10 +71,6 @@ function Login() {
           login
         </Button>
 
-        <Link to="/auth/signup" className="block">
-          <Button fullWidth>Don't have an account? Sign Up</Button>
-        </Link>
-
         <GoogleLogin
           clientId="341061266972-da2k9reaojd282hvie7d5mi281evedt5.apps.googleusercontent.com"
           render={(renderProps) => (
@@ -88,6 +87,10 @@ function Login() {
           onSuccess={googleSuccess}
           cookiePolicy={"single_host_origin"}
         />
+
+        <Link to="/auth/signup" className="block">
+          <Button fullWidth>Don't have an account? Sign Up</Button>
+        </Link>
       </form>
     </Card>
   );
