@@ -16,15 +16,13 @@ export const signInUser = async (req, res) => {
     if (!isCorrectPassword) throw new Error("email or password do not match");
 
     // creating a token
-    const token = jwt.sign({ existingUser }, "super-secret-string", {
+    const token = jwt.sign({ user: existingUser }, "super-secret-string", {
       expiresIn: "2h",
     });
     res.status(200).json({
       status: "success",
-      data: {
-        token,
-        existingUser,
-      },
+      token,
+      user: existingUser,
     });
   } catch (err) {
     console.log(err.message);
@@ -42,7 +40,7 @@ export const signUpUser = async (req, res) => {
     if (existingUser) throw new Error("email already in use");
 
     // hashing the password
-    const salt = bcrypt.genSalt();
+    const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(password, salt);
     const user = await Users.create({
       name,
@@ -57,10 +55,8 @@ export const signUpUser = async (req, res) => {
 
     res.status(200).json({
       status: "success",
-      data: {
-        token,
-        user,
-      },
+      token,
+      user,
     });
   } catch (err) {
     console.log(err.message);

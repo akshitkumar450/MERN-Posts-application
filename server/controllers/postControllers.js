@@ -88,6 +88,11 @@ export const likePost = async (req, res) => {
   const { id } = req.params;
 
   try {
+    // user can like only once
+    if (!req.userId) {
+      res.status(404).send("please login");
+      return;
+    }
     // to check whether the id is a valid mongoose id or not
     if (!mongoose.Types.ObjectId.isValid(id)) {
       res.status(404).send("no post with that id");
@@ -95,16 +100,24 @@ export const likePost = async (req, res) => {
     }
     const postToBeLiked = await Posts.findById(id);
     // console.log(data);
-    const updatedPost = await Posts.findByIdAndUpdate(
-      id,
-      {
-        likeCount: postToBeLiked.likeCount + 1,
-      },
-      {
-        new: true,
-        runValidators: true,
-      }
+    const index = postToBeLiked.likes.findIndex(
+      (id) => id === String(req.userId)
     );
+
+    // if the id is not included then it will get -1 as index
+    if (index === -1) {
+      // for like add the id for the currely logged user if likes
+      postToBeLiked.likes.push(req.userId);
+    } else {
+      // for unlike else relove the userId
+      postToBeLiked.likes = postToBeLiked.likes.filter(
+        (id) => id !== String(req.userId)
+      );
+    }
+    const updatedPost = await Posts.findByIdAndUpdate(id, postToBeLiked, {
+      new: true,
+      runValidators: true,
+    });
     res.status(201).json({
       status: "success",
       updatedPost,
