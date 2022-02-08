@@ -22,7 +22,7 @@ function Login() {
   };
 
   const googleSuccess = async (response) => {
-    console.log(response);
+    // console.log(response);
     // console.log(response.profileObj);
     const user = response?.profileObj;
     const token = response?.tokenId;
@@ -33,6 +33,7 @@ function Login() {
       })
     );
     localStorage.setItem("token", token);
+    localStorage.setItem("user", JSON.stringify(user));
     history.push("/posts");
   };
   return (

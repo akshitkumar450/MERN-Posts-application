@@ -1,19 +1,28 @@
 import { Button, Avatar } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import { logout } from "../redux/actions/userActions";
 import { GoogleLogout } from "react-google-login";
 function Navbar() {
   const dispatch = useDispatch();
   const history = useHistory();
-
-  const user = useSelector((state) => state.user.user);
+  const location = useLocation();
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
+  const [token, setToken] = useState(localStorage.getItem("token"));
+  console.log(token, user);
   const signOut = () => {
     dispatch(logout());
     history.push("/auth/login");
     localStorage.clear();
   };
+
+  useEffect(() => {
+    setToken(localStorage.getItem("token"));
+    setUser(JSON.parse(localStorage.getItem("user")));
+    // when ever the route changes run this
+  }, [location]);
+
   return (
     <div className="flex items-center rounded-lg h-16 justify-around bg-blue-500">
       <Link to="/posts">
@@ -29,7 +38,7 @@ function Navbar() {
 
       <div className="flex items-center">
         <div className="mr-5">
-          <Avatar src={user?.user?.imageUrl} alt={user?.name}>
+          <Avatar src={user?.imageUrl} alt={user?.name}>
             {user?.name}
           </Avatar>
         </div>

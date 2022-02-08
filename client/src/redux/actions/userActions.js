@@ -21,15 +21,17 @@ export const JWTsignIn = (email, password, history) => {
         email,
         password,
       });
-      // console.log(data.data);
+      // console.log(data.data.user);
       dispatch({
         type: "JWT_SIGNIN",
         payload: data.data.user,
       });
       localStorage.setItem("token", data.data.token);
+      localStorage.setItem("user", JSON.stringify(data?.data?.user));
       history.push("/posts");
     } catch (error) {
-      alert(error.response.data.message);
+      console.log(error?.response?.data);
+      // alert(error.response.data.message);
     }
   };
 };
@@ -48,10 +50,12 @@ export const JWTsignUp = (email, password, name, history) => {
         payload: data.data.user,
       });
       localStorage.setItem("token", data.data.token);
+      localStorage.setItem("user", JSON.stringify(data?.data?.user));
+
       history.push("/posts");
     } catch (error) {
-      // console.log(error.response);
-      alert(error.response.data.message);
+      console.log(error?.response?.data);
+      // alert(error.response.data.message);
     }
   };
 };
