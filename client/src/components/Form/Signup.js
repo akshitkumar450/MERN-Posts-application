@@ -1,17 +1,18 @@
 import { Button, Card, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { JWTsignUp } from "../../redux/actions/userActions";
 
 function Signup() {
   const dispatch = useDispatch();
+  const history = useHistory();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(JWTsignUp(email, password, name));
+    dispatch(JWTsignUp(email, password, name, history));
   };
 
   return (

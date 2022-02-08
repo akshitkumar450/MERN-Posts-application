@@ -12,8 +12,8 @@ function Navbar() {
   const signOut = () => {
     dispatch(logout());
     history.push("/auth/login");
+    localStorage.clear();
   };
-  // console.log(user);
   return (
     <div className="flex items-center rounded-lg h-16 justify-around bg-blue-500">
       <Link to="/posts">
@@ -29,22 +29,32 @@ function Navbar() {
 
       <div className="flex items-center">
         <div className="mr-5">
-          <Avatar src={user?.user?.imageUrl} />
+          <Avatar src={user?.user?.imageUrl} alt={user?.name}>
+            {user?.name}
+          </Avatar>
         </div>
         {user ? (
-          <GoogleLogout
-            clientId="341061266972-da2k9reaojd282hvie7d5mi281evedt5.apps.googleusercontent.com"
-            render={(renderProps) => (
-              <Button
-                variant="contained"
-                color="secondary"
-                onClick={renderProps.onClick}
-                size="large">
-                logout
-              </Button>
-            )}
-            onLogoutSuccess={signOut}
-          />
+          // <GoogleLogout
+          //   clientId="341061266972-da2k9reaojd282hvie7d5mi281evedt5.apps.googleusercontent.com"
+          //   render={(renderProps) => (
+          //     <Button
+          //       variant="contained"
+          //       color="secondary"
+          //       onClick={renderProps.onClick}
+          //       size="large">
+          //       logout
+          //     </Button>
+          //   )}
+          //   onLogoutSuccess={signOut}
+          // />
+
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={signOut}
+            size="large">
+            logout
+          </Button>
         ) : (
           <Link to="/auth/login" className="block">
             <Button variant="contained" color="secondary" size="large">

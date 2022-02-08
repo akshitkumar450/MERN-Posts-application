@@ -5,8 +5,6 @@ import CircularProgress from "@mui/material/CircularProgress";
 
 function Posts() {
   const posts = useSelector((state) => state.posts.posts);
-  console.log(posts);
-
   return (
     <div>
       {posts.length === 0 ? (

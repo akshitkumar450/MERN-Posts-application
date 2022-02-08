@@ -1,4 +1,5 @@
 import axios from "axios";
+import { API } from "./postActions";
 
 export const login = (user) => {
   return {
@@ -13,39 +14,44 @@ export const logout = () => {
   };
 };
 
-export const JWTsignIn = (email, password) => {
+export const JWTsignIn = (email, password, history) => {
   return async (dispatch) => {
     try {
-      const data = await axios.post("http://localhost:5000/auth/signin", {
+      const data = await API.post("/auth/signin", {
         email,
         password,
       });
-      console.log(data.data);
+      // console.log(data.data);
       dispatch({
         type: "JWT_SIGNIN",
-        payload: data.data.data,
+        payload: data.data.user,
       });
+      localStorage.setItem("token", data.data.token);
+      history.push("/posts");
     } catch (error) {
-      console.log(error);
+      alert(error.response.data.message);
     }
   };
 };
 
-export const JWTsignUp = (email, password, name) => {
+export const JWTsignUp = (email, password, name, history) => {
   return async (dispatch) => {
     try {
-      const data = await axios.post("http://localhost:5000/auth/signup", {
+      const data = await API.post("/auth/signup", {
         email,
         password,
         name,
       });
-      console.log(data.data);
+      // console.log(data.data);
       dispatch({
         type: "JWT_SIGNUP",
-        payload: data.data.data,
+        payload: data.data.user,
       });
+      localStorage.setItem("token", data.data.token);
+      history.push("/posts");
     } catch (error) {
-      console.log(error);
+      // console.log(error.response);
+      alert(error.response.data.message);
     }
   };
 };

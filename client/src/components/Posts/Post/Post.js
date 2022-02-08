@@ -60,7 +60,7 @@ export default function Post({ post }) {
         </CardContent>
         <CardActions>
           <Button size="small" onClick={() => likedPost(post._id)}>
-            like {post.likeCount}
+            like {post.likes.length}
           </Button>
           <Button size="small" onClick={() => deleteCurrentPost(post._id)}>
             delete

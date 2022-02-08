@@ -14,7 +14,7 @@ function Login() {
   const handleSubmit = (e) => {
     e.preventDefault();
     // console.log(email, password);
-    dispatch(JWTsignIn(email, password));
+    dispatch(JWTsignIn(email, password, history));
   };
 
   const googleFailure = () => {
@@ -22,16 +22,17 @@ function Login() {
   };
 
   const googleSuccess = async (response) => {
-    // console.log(response);
+    console.log(response);
     // console.log(response.profileObj);
     const user = response?.profileObj;
-    const token = response?.token;
+    const token = response?.tokenId;
     dispatch(
       login({
         user,
         token,
       })
     );
+    localStorage.setItem("token", token);
     history.push("/posts");
   };
   return (

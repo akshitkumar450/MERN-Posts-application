@@ -19,6 +19,9 @@ export const getPosts = async (req, res) => {
 export const createPost = async (req, res) => {
   // console.log(req.body);
   try {
+    if (!req.userId) {
+      throw new Error("please login");
+    }
     const newPost = await Posts.create(req.body);
     // console.log("newpost", newPost);
     res.status(201).json({
@@ -90,8 +93,7 @@ export const likePost = async (req, res) => {
   try {
     // user can like only once
     if (!req.userId) {
-      res.status(404).send("please login");
-      return;
+      throw new Error("please login");
     }
     // to check whether the id is a valid mongoose id or not
     if (!mongoose.Types.ObjectId.isValid(id)) {
